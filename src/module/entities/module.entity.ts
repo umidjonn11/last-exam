@@ -10,6 +10,7 @@ import {
 
 @Entity({ name: 'module' })
 export class ModuleEntity {
+  @ApiProperty({ example: 1, description: 'unique identifier', required: true })
   @PrimaryGeneratedColumn()
   id: number;
 

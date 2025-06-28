@@ -60,4 +60,5 @@ export class CoursesService {
     }
     return "Muvaffaqiyatli uchirildi"
   }
+  
 }

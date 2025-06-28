@@ -8,9 +8,15 @@ import { CoursesService } from 'src/courses/courses.service';
 
 @Injectable()
 export class ModuleService {
-  constructor(@InjectRepository(ModuleEntity) private moduleRepo:Repository<ModuleEntity>,private courseService:CoursesService){}
-  create(createModuleDto: CreateModuleDto) {
-    return ;
+  constructor(
+    @InjectRepository(ModuleEntity)
+    private moduleRepo: Repository<ModuleEntity>,
+    private courseService: CoursesService,
+  ) {}
+  async create(createModuleDto: CreateModuleDto | any) {
+     await this.courseService.findOne(createModuleDto.courseId);
+    const module = this.moduleRepo.create(createModuleDto);
+    return await this.moduleRepo.save(module)
   }
 
   findAll() {
