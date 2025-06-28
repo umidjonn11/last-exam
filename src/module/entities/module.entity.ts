@@ -10,18 +10,11 @@ import {
 
 @Entity({ name: 'module' })
 export class ModuleEntity {
-  @ApiProperty({ example: 1, description: 'unique identifier', required: true })
   @PrimaryGeneratedColumn()
   id: number;
 
-  @ApiProperty({
-    example: 'Python oop',
-    description: 'Python darslari',
-    required: true,
-  })
   @Column()
   tittle: string;
-  @ApiProperty({ example: 1, description: 'Course id', required: true })
   @ManyToOne(() => Course)
   courseId: Course;
 
