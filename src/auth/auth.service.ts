@@ -6,7 +6,7 @@ import {
 } from '@nestjs/common';
 import { compare } from 'bcrypt';
 import { InjectRepository } from '@nestjs/typeorm';
-import { Repository } from 'typeorm';
+import { Equal, Repository } from 'typeorm';
 import { JwtService } from '@nestjs/jwt';
 import { UserRepository } from './entities/auth.entity';
 import { LoginDto } from './dto/update-auth.dto';
@@ -63,7 +63,7 @@ export class UserService {
       throw new Error(error);
     }
   }
-  async updateUser(id: string, updateData: any) {
+  async updateUser(id: number, updateData: any) {
     const user = await this.userRepo.findOneBy({ id });
     if (user) {
       Object.assign(user, updateData);
@@ -90,5 +90,8 @@ export class UserService {
     });
   
     return { user, access }; // ✅ Returns both user and new token
+  }
+  async findOne(id:number){
+    return await this.userRepo.findOne({where:{id:  Equal(id)}})
   }
 }

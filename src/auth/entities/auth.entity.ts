@@ -5,7 +5,7 @@ import {hash} from "bcrypt"
 @Entity({ name: 'users' })
 export class UserRepository {
   @PrimaryGeneratedColumn()
-  id: string;
+  id: number;
   @Column()
   name: string;
   @Column({ nullable: false, select: false })

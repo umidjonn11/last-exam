@@ -1,12 +1,21 @@
-import { Controller, Get, Post, Body, Patch, Param, Delete } from '@nestjs/common';
+import { Controller, Get, Post, Body, Patch, Param, Delete, UseGuards } from '@nestjs/common';
 import { CoursesService } from './courses.service';
 import { CreateCourseDto } from './dto/create-course.dto';
 import { UpdateCourseDto } from './dto/update-course.dto';
+import { RolesGuard } from 'src/security/roles-guard';
+import { Roles } from 'src/security/roles.decorator';
+import { UserRole } from 'src/security/roles.enum';
+import { AuthGuard } from 'src/security/auth-guard';
+import { ApiBearerAuth, ApiOperation } from '@nestjs/swagger';
+import { UserService } from 'src/auth/auth.service';
 
 @Controller('courses')
 export class CoursesController {
   constructor(private readonly coursesService: CoursesService) {}
-
+  @ApiBearerAuth()
+  @ApiOperation({summary: "Create Courses"})
+  @UseGuards(AuthGuard,RolesGuard)
+  @Roles(UserRole.admin)
   @Post()
   create(@Body() createCourseDto: CreateCourseDto) {
     return this.coursesService.create(createCourseDto);
