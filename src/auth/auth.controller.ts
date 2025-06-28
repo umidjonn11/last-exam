@@ -6,14 +6,15 @@ import {
   Patch,
   Param,
   Delete,
+  HttpStatus,
   Req,
   Res,
-  HttpStatus,
 } from '@nestjs/common';
 import { Request,Response } from 'express';
 import { UserService } from './auth.service';
 import { CreateUserDto } from './dto/create-auth.dto';
 import { LoginDto } from './dto/update-auth.dto';
+
 
 
 @Controller('user')
@@ -39,9 +40,28 @@ export class UserController {
 
     const { user, token,refreshToken } =
       await this.userService.login(loginDto);
+      
+    res.cookie('jwt', refreshToken, {
+      httpOnly: true,
+      secure: false,
+      maxAge: 1000 * 3600 * 24 * 10,
+    });
 
     res
       .status(HttpStatus.OK)
-      .json({ status: 'Success', data: { user, token,refreshToken } });
+      .json({ status: 'Success', data: { user, token } });
+  }
+  @Get('refresh')
+  async refreshToken(@Req() req: Request, @Res() res: Response) {
+    const token = req.cookies['jwt'];
+    console.log(token);
+
+    const data: any = await this.userService.refresh(token);
+    console.log(data);
+
+    res.status(HttpStatus.OK).json({
+      status: 'Succes',
+      data: { user: data.user, token: data.access },
+    });
   }
 }

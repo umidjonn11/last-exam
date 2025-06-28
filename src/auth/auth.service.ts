@@ -2,6 +2,7 @@ import {
   BadRequestException,
   Injectable,
   NotFoundException,
+  UnauthorizedException,
 } from '@nestjs/common';
 import { compare } from 'bcrypt';
 import { InjectRepository } from '@nestjs/typeorm';
@@ -70,5 +71,24 @@ export class UserService {
       return user;
     }
     throw new NotFoundException('User topilmadi');
+  }
+  async refresh(token: string) {
+    // 1. Find user by refreshToken
+    const user = await this.userRepo.findOne({ 
+      where: { refreshToken: token } 
+    });
+  
+    if (!user) {
+      throw new UnauthorizedException('Invalid refresh token');
+    }
+  
+    // 2. Generate new access token
+    const access = await this.jwtService.signAsync({
+      id: user.id,
+      role: user.role,
+      username: user.username,
+    });
+  
+    return { user, access }; // ✅ Returns both user and new token
   }
 }
