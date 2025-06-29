@@ -16,9 +16,10 @@ import { Lesson } from './lessons/entities/lesson.entity';
 import { StudentCourse } from './student_courses/entities/student_courses.entity';
 import { StudentCoursesModule } from './student_courses/student_courses.module';
 import { EnrollmentsModule } from './enrollement/enrollment.module';
+import { ConfigModule } from '@nestjs/config';
 
 @Module({
-  imports: [ModuleModule, UserModule, LessonsModule, CoursesModule, AssignmentsModule,StudentCoursesModule,EnrollmentsModule,
+  imports: [ModuleModule, UserModule, LessonsModule, CoursesModule, AssignmentsModule,StudentCoursesModule,EnrollmentsModule,ConfigModule.forRoot({ isGlobal: true }),
     TypeOrmModule.forRoot({
       host: process.env.DB_HOST||'localhost',
       username: process.env.DB_USERNAME||'postgres',
