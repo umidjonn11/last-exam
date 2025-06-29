@@ -20,7 +20,9 @@ export class CoursesController {
   create(@Body() createCourseDto: CreateCourseDto) {
     return this.coursesService.create(createCourseDto);
   }
-
+  @ApiBearerAuth()
+  @UseGuards(AuthGuard,RolesGuard)
+  @Roles(UserRole.admin)
   @Get('getAll')
   findAll() {
     return this.coursesService.findAll();
@@ -30,18 +32,23 @@ export class CoursesController {
   findOne(@Param('id') id: string) {
     return this.coursesService.findOne(+id);
   }
+  @ApiBearerAuth()
 
+  @UseGuards(AuthGuard,RolesGuard)
+  @Roles(UserRole.admin)
   @Patch(':id')
   update(@Param('id') id: string, @Body() updateCourseDto: UpdateCourseDto) {
     return this.coursesService.update(+id, updateCourseDto);
   }
-
+  @ApiBearerAuth()
+  @UseGuards(AuthGuard,RolesGuard)
+  @Roles(UserRole.admin)
   @Delete(':id')
   remove(@Param('id') id: string) {
     return this.coursesService.remove(+id);
   }
 
-  @Get(':id/modules')
+  @Get(':id/modules') 
   findLessons(@Param('id') id: string) {
     const numericId = Number(id);
     if (isNaN(numericId)) {

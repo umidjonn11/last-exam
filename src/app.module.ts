@@ -14,9 +14,10 @@ import { ModuleEntity } from './module/entities/module.entity';
 import { Assignment } from './assignments/entities/assignment.entity';
 import { Lesson } from './lessons/entities/lesson.entity';
 import { StudentCourse } from './student_courses/entities/student_courses.entity';
+import { StudentCoursesModule } from './student_courses/student_courses.module';
 
 @Module({
-  imports: [ModuleModule, UserModule, LessonsModule, CoursesModule, AssignmentsModule, 
+  imports: [ModuleModule, UserModule, LessonsModule, CoursesModule, AssignmentsModule,StudentCoursesModule,
     TypeOrmModule.forRoot({
       host: process.env.DB_HOST||'localhost',
       username: process.env.DB_USERNAME||'postgres',
