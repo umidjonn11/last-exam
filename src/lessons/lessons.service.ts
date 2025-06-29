@@ -24,5 +24,7 @@ export class LessonsService {
     if (lessons.length === 0) throw new NotFoundException('No lessons found');
     return lessons;
   }
-
+async findOne(id:number){
+  return this.lessonRepo.findOne({where:{id}})
+}
 }

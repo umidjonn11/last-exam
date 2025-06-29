@@ -14,15 +14,16 @@ import { AuthGuard } from './security/auth-guard';
 @Module({
   imports: [ModuleModule, UserModule, LessonsModule, CoursesModule, AssignmentsModule, ResultsModule,
     TypeOrmModule.forRoot({
-      host: 'localhost',
-      username: 'postgres',
-      port: 5432,
-      database: 'umid',
-      password: 'umidjon06',
+      host: process.env.DB_HOST||'localhost',
+      username: process.env.DB_USERNAME||'postgres',
+      port: parseInt(process.env.DB_PORT as string)||5432,
+      database:  process.env.DB_DATABASE||"umid",
+      password: process.env.DB_PASSWORD||'umidjon06',
       type: 'postgres',
       synchronize: true,
       entities: [UserRepository,Course],
       autoLoadEntities: true,
+
     }),
   ],
   controllers: [],
