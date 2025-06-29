@@ -6,6 +6,7 @@ import { CreateCourseDto } from './dto/create-course.dto';
 import { UpdateCourseDto } from './dto/update-course.dto';
 import { UserService } from 'src/auth/auth.service';
 import { UserRole } from 'src/security/roles.enum';
+import { ModuleService } from 'src/module/module.service';
 
 @Injectable()
 export class CoursesService {
@@ -13,6 +14,7 @@ export class CoursesService {
     @InjectRepository(Course)
     private readonly courseRepo: Repository<Course>,
     private userService: UserService,
+   
   ) {}
 
   async create(createCourseDto: CreateCourseDto | any): Promise<Course[]> {

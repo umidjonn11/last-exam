@@ -5,6 +5,7 @@ import { TypeOrmModule } from '@nestjs/typeorm';
 import { todo } from 'node:test';
 import { Course } from './entities/course.entity';
 import { UserModule } from 'src/auth/auth.module';
+import { ModuleModule } from 'src/module/module.module';
 
 @Module({
   imports:[TypeOrmModule.forFeature([Course]), UserModule],
