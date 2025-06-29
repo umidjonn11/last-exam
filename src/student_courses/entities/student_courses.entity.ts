@@ -23,7 +23,7 @@ export class StudentCourse {
   @ManyToOne(() => Lesson)
   lessonId: number;
 
-  @ManyToOne(() => Course)
+  @ManyToOne(() => Course,{onDelete:'CASCADE'})
   courseId: number;
 
   @CreateDateColumn()
