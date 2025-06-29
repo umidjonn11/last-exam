@@ -1,4 +1,4 @@
-import { Injectable, NotFoundException } from '@nestjs/common';
+import { forwardRef, Inject, Injectable, NotFoundException } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
 import { Repository } from 'typeorm';
 import { Course } from './entities/course.entity';
@@ -14,7 +14,8 @@ export class CoursesService {
     @InjectRepository(Course)
     private readonly courseRepo: Repository<Course>,
     private userService: UserService,
-   
+    @Inject(forwardRef(() => ModuleService))
+    private readonly moduleSerivce: ModuleService,
   ) {}
 
   async create(createCourseDto: CreateCourseDto | any): Promise<Course[]> {
@@ -61,6 +62,12 @@ export class CoursesService {
       throw new NotFoundException(` ${id} chi id li kurs topilmadi`);
     }
     return "Muvaffaqiyatli uchirildi"
+  }
+
+  async getModules(id:number|any){
+    const module = await this.moduleSerivce.getModule(id);
+    return module 
+
   }
   
 }

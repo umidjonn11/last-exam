@@ -8,7 +8,7 @@ import { CreateModuleDto } from './dto/create-module.dto';
 import { UpdateModuleDto } from './dto/update-module.dto';
 import { InjectRepository } from '@nestjs/typeorm';
 import { ModuleEntity } from './entities/module.entity';
-import { Repository } from 'typeorm';
+import { Equal, Repository } from 'typeorm';
 import { CoursesService } from 'src/courses/courses.service';
 import { LessonsService } from 'src/lessons/lessons.service';
 
@@ -38,11 +38,12 @@ export class ModuleService {
     return lessons
   }
 
-  update(id: number, updateModuleDto: UpdateModuleDto) {
-    return `This action updates a #${id} module`;
-  }
 
-  remove(id: number) {
-    return `This action removes a #${id} module`;
-  }
+ async getModule(id:number|any){
+  const course=await this.courseService.findOne(id)
+  const module=await this.moduleRepo.find({where:{courseId:Equal(course.id)}})
+  if (module.length === 0) throw new NotFoundException('No lessons found');
+  return module;
+
+ }
 }

@@ -5,7 +5,7 @@ import { UpdateAssignmentDto } from './dto/update-assignment.dto';
 @Injectable()
 export class AssignmentsService {
   create(createAssignmentDto: CreateAssignmentDto) {
-    return 'This action adds a new assignment';
+    ;
   }
 
   findAll() {

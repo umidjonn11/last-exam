@@ -1,4 +1,4 @@
-import { Controller, Get, Post, Body, Patch, Param, Delete, UseGuards } from '@nestjs/common';
+import { Controller, Get, Post, Body, Patch, Param, Delete, UseGuards, BadRequestException } from '@nestjs/common';
 import { CoursesService } from './courses.service';
 import { CreateCourseDto } from './dto/create-course.dto';
 import { UpdateCourseDto } from './dto/update-course.dto';
@@ -39,5 +39,14 @@ export class CoursesController {
   @Delete(':id')
   remove(@Param('id') id: string) {
     return this.coursesService.remove(+id);
+  }
+
+  @Get(':courseId/modules')
+  findLessons(@Param('id') id: string) {
+    const numericId = Number(id);
+    if (isNaN(numericId)) {
+      throw new BadRequestException('Invalid module ID');
+    }
+    return this.coursesService.getModules(numericId);
   }
 }
