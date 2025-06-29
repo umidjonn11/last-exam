@@ -1,4 +1,4 @@
-import { Controller, Get, Post, Body, Patch, Param, Delete } from '@nestjs/common';
+import { Controller, Get, Post, Body, Patch, Param, Delete, BadRequestException } from '@nestjs/common';
 import { ModuleService } from './module.service';
 import { CreateModuleDto } from './dto/create-module.dto';
 import { UpdateModuleDto } from './dto/update-module.dto';
@@ -19,8 +19,13 @@ export class ModuleController {
   }
 
 
-  @Get('/id')
-  findLessons(@Param('id') id: number){
-    return this.moduleService.getLessons(+id)
+  @Get(':id/lessons')
+  findLessons(@Param('id') id: string) {
+    const numericId = Number(id);
+    if (isNaN(numericId)) {
+      throw new BadRequestException('Invalid module ID');
+    }
+    return this.moduleService.getLessons(numericId);
   }
+  
 }
