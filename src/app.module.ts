@@ -4,15 +4,19 @@ import { UserModule } from './auth/auth.module';
 import { LessonsModule } from './lessons/lessons.module';
 import { CoursesModule } from './courses/courses.module';
 import { AssignmentsModule } from './assignments/assignments.module';
-import { ResultsModule } from './results/results.module';
+// import { ResultsModule } from './results/results.module';
 import { UserRepository } from './auth/entities/auth.entity';
 import { TypeOrmModule } from '@nestjs/typeorm';
 import { Course } from './courses/entities/course.entity';
 import { RolesGuard } from './security/roles-guard';
 import { AuthGuard } from './security/auth-guard';
+import { ModuleEntity } from './module/entities/module.entity';
+import { Assignment } from './assignments/entities/assignment.entity';
+import { Lesson } from './lessons/entities/lesson.entity';
+import { StudentCourse } from './student_courses/entities/student_courses.entity';
 
 @Module({
-  imports: [ModuleModule, UserModule, LessonsModule, CoursesModule, AssignmentsModule, ResultsModule,
+  imports: [ModuleModule, UserModule, LessonsModule, CoursesModule, AssignmentsModule, 
     TypeOrmModule.forRoot({
       host: process.env.DB_HOST||'localhost',
       username: process.env.DB_USERNAME||'postgres',
@@ -21,7 +25,7 @@ import { AuthGuard } from './security/auth-guard';
       password: process.env.DB_PASSWORD||'umidjon06',
       type: 'postgres',
       synchronize: true,
-      entities: [UserRepository,Course],
+      entities: [UserRepository,Course,ModuleEntity,Assignment,StudentCourse,Lesson],
       autoLoadEntities: true,
 
     }),

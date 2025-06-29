@@ -1,9 +1,12 @@
-import { Module } from '@nestjs/common';
-import { ResultsService } from './results.service';
-import { ResultsController } from './results.controller';
+// import { forwardRef, Module } from '@nestjs/common';
+// import { ResultsService } from './results.service';
+// import { ResultsController } from './results.controller';
+// import { AssignmentsModule } from 'src/assignments/assignments.module';
 
-@Module({
-  controllers: [ResultsController],
-  providers: [ResultsService],
-})
-export class ResultsModule {}
+// @Module({
+//   imports: [forwardRef(() => AssignmentsModule)],
+//   controllers: [ResultsController],
+//   providers: [ResultsService],
+//   exports:[ResultsService]
+// })
+// export class ResultsModule {}
