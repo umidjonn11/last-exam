@@ -14,7 +14,7 @@ export class ModuleEntity {
   id: number;
 
   @Column()
-  tittle: string;
+  title: string;
   @ManyToOne(() => Course)
   courseId: Course;
 

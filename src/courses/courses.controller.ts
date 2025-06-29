@@ -16,12 +16,12 @@ export class CoursesController {
   @ApiOperation({summary: "Create Courses"})
   @UseGuards(AuthGuard,RolesGuard)
   @Roles(UserRole.admin)
-  @Post()
+  @Post("create")
   create(@Body() createCourseDto: CreateCourseDto) {
     return this.coursesService.create(createCourseDto);
   }
 
-  @Get()
+  @Get('getAll')
   findAll() {
     return this.coursesService.findAll();
   }

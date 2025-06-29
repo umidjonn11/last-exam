@@ -1,4 +1,4 @@
-import { Injectable } from '@nestjs/common';
+import { Injectable, NotFoundException } from '@nestjs/common';
 import { CreateModuleDto } from './dto/create-module.dto';
 import { UpdateModuleDto } from './dto/update-module.dto';
 import { InjectRepository } from '@nestjs/typeorm';
@@ -14,17 +14,15 @@ export class ModuleService {
     private courseService: CoursesService,
   ) {}
   async create(createModuleDto: CreateModuleDto | any) {
-     await this.courseService.findOne(createModuleDto.courseId);
+    await this.courseService.findOne(createModuleDto.courseId);
     const module = this.moduleRepo.create(createModuleDto);
-    return await this.moduleRepo.save(module)
+    return await this.moduleRepo.save(module);
   }
 
-  findAll() {
-    return `This action returns all module`;
-  }
-
-  findOne(id: number) {
-    return `This action returns a #${id} module`;
+  async findOne(id: number) {
+    const module= await this.moduleRepo.findOne({ where: { id } });
+    if(!module) throw new NotFoundException("Module topilmadi")
+      return module
   }
 
   update(id: number, updateModuleDto: UpdateModuleDto) {

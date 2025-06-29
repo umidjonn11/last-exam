@@ -12,23 +12,11 @@ export class ModuleController {
     return this.moduleService.create(createModuleDto);
   }
 
-  @Get()
-  findAll() {
-    return this.moduleService.findAll();
-  }
-
+  
   @Get(':id')
   findOne(@Param('id') id: string) {
     return this.moduleService.findOne(+id);
   }
 
-  @Patch(':id')
-  update(@Param('id') id: string, @Body() updateModuleDto: UpdateModuleDto) {
-    return this.moduleService.update(+id, updateModuleDto);
-  }
 
-  @Delete(':id')
-  remove(@Param('id') id: string) {
-    return this.moduleService.remove(+id);
-  }
 }
