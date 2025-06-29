@@ -92,6 +92,8 @@ export class UserService {
     return { user, access }; // ✅ Returns both user and new token
   }
   async findOne(id:number){
-    return await this.userRepo.findOne({where:{id:  Equal(id)}})
+    const user= await this.userRepo.findOne({where:{id:  Equal(id)}})
+    if (!user) throw new Error("User not found");
+    return user
   }
 }

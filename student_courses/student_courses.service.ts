@@ -15,18 +15,17 @@ export class StudentCoursesService {
   constructor(
     @InjectRepository(StudentCourse)
     private studentCourses: Repository<StudentCourse>,
-    @Inject(forwardRef(() => UserService)) private user:UserService ,
+    @Inject(forwardRef(() => UserService)) private user: UserService,
     @Inject(forwardRef(() => LessonsService)) private lesson: LessonsService,
     @Inject(forwardRef(() => ModuleService)) private modul: ModuleService,
     @Inject(forwardRef(() => CoursesService)) private course: CoursesService,
-    
   ) {}
   async create(createStudentCourseDto: CreateStudentCourseDto) {
     const user = await this.user.findOne(createStudentCourseDto.studentId);
     const course = await this.course.findOne(createStudentCourseDto.courseId);
     const module = await this.modul.findOne(createStudentCourseDto.moduleId);
     const lesson = await this.lesson.findOne(createStudentCourseDto.lessonId);
-
+    if (!lesson) throw new Error("lesson not found");
     const student_courses = this.studentCourses.create({
       ...createStudentCourseDto,
       studentId: user.id,
@@ -39,6 +38,7 @@ export class StudentCoursesService {
 
   async findAll(studentId: number) {
     const user = await this.user.findOne(studentId);
+    
     const student_courses = await this.studentCourses.find({
       where: { studentId: user.id },
       relations: ['studentId', 'courseId', 'lessonId'],
