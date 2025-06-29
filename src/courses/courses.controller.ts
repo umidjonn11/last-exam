@@ -41,7 +41,7 @@ export class CoursesController {
     return this.coursesService.remove(+id);
   }
 
-  @Get(':courseId/modules')
+  @Get(':id/modules')
   findLessons(@Param('id') id: string) {
     const numericId = Number(id);
     if (isNaN(numericId)) {

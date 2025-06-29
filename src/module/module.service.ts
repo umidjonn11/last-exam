@@ -42,7 +42,7 @@ export class ModuleService {
  async getModule(id:number|any){
   const course=await this.courseService.findOne(id)
   const module=await this.moduleRepo.find({where:{courseId:Equal(course.id)}})
-  if (module.length === 0) throw new NotFoundException('No lessons found');
+  if (module.length === 0) throw new NotFoundException('No modules found');
   return module;
 
  }

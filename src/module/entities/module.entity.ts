@@ -17,7 +17,7 @@ export class ModuleEntity {
 
   @Column()
   title: string;
-  @ManyToOne(() => Course)
+  @ManyToOne(() => Course, { onDelete: 'CASCADE',})
   courseId: Course;
 
   @OneToMany(() => Lesson, (lesson) => lesson.moduleId)

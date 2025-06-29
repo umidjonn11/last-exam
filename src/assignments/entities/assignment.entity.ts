@@ -11,8 +11,8 @@ export class Assignment {
 
   @Column('text')
   content: string;
-  
-  @ManyToOne(() => ModuleEntity)
+
+  @ManyToOne(() => ModuleEntity,{ onDelete: 'CASCADE',})
   moduleId: ModuleEntity;
 
 

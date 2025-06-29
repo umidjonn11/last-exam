@@ -13,7 +13,7 @@ export class Lesson {
   @Column('text')
   content: string; 
 
-  @ManyToOne(() => ModuleEntity)
+  @ManyToOne(() => ModuleEntity,{ onDelete: 'CASCADE',})
   moduleId: ModuleEntity;
 
 }
