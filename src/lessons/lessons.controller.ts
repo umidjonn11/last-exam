@@ -12,10 +12,10 @@ export class LessonsController {
     return this.lessonsService.create(createLessonDto);
   }
 
-  @Get()
-  findAll() {
-    return this.lessonsService.findAll();
-  }
+  // @Get()
+  // findAll() {
+  //   return this.lessonsService.findAll();
+  // }
 
   @Get(':id')
   findOne(@Param('id') id: string) {

@@ -1,16 +1,16 @@
-import { Injectable } from '@nestjs/common';
+import { forwardRef, Inject, Injectable, NotFoundException } from '@nestjs/common';
 import { CreateLessonDto } from './dto/create-lesson.dto';
 import { UpdateLessonDto } from './dto/update-lesson.dto';
 import { InjectRepository } from '@nestjs/typeorm';
 import { Lesson } from './entities/lesson.entity';
-import { Repository } from 'typeorm';
+import { Equal, Repository } from 'typeorm';
 import { ModuleService } from 'src/module/module.service';
 
 @Injectable()
 export class LessonsService {
   constructor(
     @InjectRepository(Lesson) private lessonRepo: Repository<Lesson>,
-    private moduleService: ModuleService,
+    @Inject(forwardRef(() => ModuleService)) private moduleService: ModuleService,
   ) {}
   async create(createLessonDto: CreateLessonDto | any) {
     await this.moduleService.findOne(createLessonDto.moduleId);
@@ -18,8 +18,11 @@ export class LessonsService {
     return this.lessonRepo.save(lesson);
   }
 
-  findAll() {
-    return `This action returns all lessons`;
+ async getLesson(id:number|any) {
+    const module=await this.moduleService.findOne(id)
+    const lessons=await this.lessonRepo.find({where:{moduleId:Equal(module.id)}});
+    if (lessons.length === 0) throw new NotFoundException('No lessons found');
+    return lessons;
   }
 
   findOne(id: number) {

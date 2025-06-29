@@ -1,10 +1,16 @@
-import { Injectable, NotFoundException } from '@nestjs/common';
+import {
+  forwardRef,
+  Inject,
+  Injectable,
+  NotFoundException,
+} from '@nestjs/common';
 import { CreateModuleDto } from './dto/create-module.dto';
 import { UpdateModuleDto } from './dto/update-module.dto';
 import { InjectRepository } from '@nestjs/typeorm';
 import { ModuleEntity } from './entities/module.entity';
 import { Repository } from 'typeorm';
 import { CoursesService } from 'src/courses/courses.service';
+import { LessonsService } from 'src/lessons/lessons.service';
 
 @Injectable()
 export class ModuleService {
@@ -12,6 +18,8 @@ export class ModuleService {
     @InjectRepository(ModuleEntity)
     private moduleRepo: Repository<ModuleEntity>,
     private courseService: CoursesService,
+    @Inject(forwardRef(() => LessonsService))
+    private lessonService: LessonsService,
   ) {}
   async create(createModuleDto: CreateModuleDto | any) {
     await this.courseService.findOne(createModuleDto.courseId);
@@ -20,9 +28,14 @@ export class ModuleService {
   }
 
   async findOne(id: number) {
-    const module= await this.moduleRepo.findOne({ where: { id } });
-    if(!module) throw new NotFoundException("Module topilmadi")
-      return module
+    const module = await this.moduleRepo.findOne({ where: { id } });
+    if (!module) throw new NotFoundException('Module topilmadi');
+    return module;
+  }
+
+  async getLessons(id: number) {
+    const lessons = await this.lessonService.getLesson(id);
+    return lessons
   }
 
   update(id: number, updateModuleDto: UpdateModuleDto) {

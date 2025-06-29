@@ -19,4 +19,8 @@ export class ModuleController {
   }
 
 
+  @Get('/id')
+  findLessons(@Param('id') id: number){
+    return this.moduleService.getLessons(+id)
+  }
 }
