@@ -5,7 +5,7 @@ services:
     restart: always
     environment:
       POSTGRES_PASSWORD: "umidjon06"
-      POSTGRES_DATABASE: umid
+      POSTGRES_DATABASE: postgres
       POSTGRES_USER: postgres
       POSTGRES_HOST: postgres
     ports:
