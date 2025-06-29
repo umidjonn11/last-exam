@@ -1,4 +1,4 @@
-import { forwardRef, Inject, Injectable } from '@nestjs/common';
+import { forwardRef, Inject, Injectable, NotFoundException } from '@nestjs/common';
 
 import { CoursesService } from 'src/courses/courses.service';
 import { InjectRepository } from '@nestjs/typeorm';
@@ -25,7 +25,7 @@ export class StudentCoursesService {
     const course = await this.course.findOne(createStudentCourseDto.courseId);
     const module = await this.modul.findOne(createStudentCourseDto.moduleId);
     const lesson = await this.lesson.findOne(createStudentCourseDto.lessonId);
-    if (!lesson) throw new Error("lesson not found");
+    if (!lesson) throw new NotFoundException("lesson not found");
     const student_courses = this.studentCourses.create({
       ...createStudentCourseDto,
       studentId: user.id,
